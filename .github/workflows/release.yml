@@ -1,0 +1,50 @@
+﻿name: Release
+
+on:
+  push:
+    branches: [ master ]
+
+permissions: write-all
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+    - name: Add NuGet source
+      run: dotnet nuget add source --username NowaLone --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/NowaLone/index.json"
+    # - name: Restore dependencies
+    #   run: dotnet restore
+    # - name: Build
+    #   run: dotnet build --no-restore --configuration Release /p:DebugType=None /p:DebugSymbols=false
+    - name: Publish win-x86
+      run: dotnet publish -c release -f net6.0 -r win-x86 --sc -p:PublishSingleFile=true -p:PublishTrimmed=true -p:DebugType=None -p:DebugSymbols=false
+    - name: Publish linux-x64
+      run: dotnet publish -c release -f net6.0 -r linux-x64 --sc -p:PublishSingleFile=true -p:PublishTrimmed=true -p:DebugType=None -p:DebugSymbols=false
+    - name: Publish osx-x64
+      run: dotnet publish -c release -f net6.0 -r osx-x64 --sc -p:PublishSingleFile=true -p:PublishTrimmed=true -p:DebugType=None -p:DebugSymbols=false
+    - name: Publish win-arm
+      run: dotnet publish -c release -f net6.0 -r win-arm --sc -p:PublishSingleFile=true -p:PublishTrimmed=true -p:DebugType=None -p:DebugSymbols=false
+    # - name: Publish osx-arm64
+    #   run: dotnet publish -c release -f net6.0 -r osx-arm64 --sc -p:PublishSingleFile=true -p:PublishTrimmed=true -p:DebugType=None -p:DebugSymbols=false
+    - name: Publish linux-arm
+      run: dotnet publish -c release -f net6.0 -r linux-arm --sc -p:PublishSingleFile=true -p:PublishTrimmed=true -p:DebugType=None -p:DebugSymbols=false
+    - name: Create Release
+      id: create_release
+      uses: ncipollo/release-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        allowUpdates: true
+        tag: v${{ env.GitVersion_SemVer }}
+        name: v${{ env.GitVersion_SemVer }}
+        draft: false
+        prerelease: false
+        artifacts: 'src/TwitchChatExport.CLI/bin/release/net6.0/win-x86/publish/TwitchChatExport.CLI*,src/TwitchChatExport.CLI/bin/release/net6.0/linux-x64/publish/TwitchChatExport.CLI*,src/TwitchChatExport.CLI/bin/release/net6.0/osx-x64/publish/TwitchChatExport.CLI*,src/TwitchChatExport.CLI/bin/release/net6.0/win-arm/publish/TwitchChatExport.CLI*,src/TwitchChatExport.CLI/bin/release/net6.0/linux-arm/publish/TwitchChatExport.CLI*'
