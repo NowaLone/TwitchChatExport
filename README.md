@@ -1,8 +1,16 @@
-USAGE: .\TwitchChatExport.CLI.exe --help
-       .\TwitchChatExport.CLI.exe -t "YOUR OAuth TOKEN" -c "TARGET CHANNEL NAME" -u "TARGET USERNAME"
+**USAGE:**
 
-EXAMPLE: .\TwitchChatExport.CLI.exe -t "nuip6hc9bujoqwg173owqsrgczjkwn" -c "SomeoneChannel" -u "MyNickname"
-         .\TwitchChatExport.CLI.exe -t "nuip6hc9bujoqwg173owqsrgczjkwn" -c "MyChannel" -u "SomeoneNickname"
+.\TwitchChatExport.CLI.exe --help
+
+.\TwitchChatExport.CLI.exe -t "YOUR OAuth TOKEN" -c "TARGET CHANNEL NAME" -u "TARGET USERNAME"
+
+**EXAMPLE:**
+
+.\TwitchChatExport.CLI.exe -t "nuip6hc9bujoqwg173owqsrgczjkwn" -c "SomeoneChannel" -u "MyNickname"
+
+.\TwitchChatExport.CLI.exe -t "nuip6hc9bujoqwg173owqsrgczjkwn" -c "MyChannel" -u "SomeoneNickname"
+
+
 
 How to get Twitch OAuth token? Log in at twitch.tv and open deveploment tools
                      
